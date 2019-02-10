@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Screen Sharing</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            color: #049424;
+            background-color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+            display: grid;
+            grid-template-areas: "h" "m" "f";
+            grid-template-columns: 1fr;
+            grid-template-rows: 72px 1fr 50px;
+            min-height: 100vh;
+        }
+
+        a:link, a:visited, footer p { color: #333;  text-decoration:none; }
+
+        a:hover { color: #999; }
+
+        button { padding: 10px; color: #ccf; border: 0; background: linear-gradient(#042494, #000033);  }
+
+        button:hover { color: #ff3; cursor: pointer; background: linear-gradient(#0424e4, #000033); }
+
+        .btn-fs { color: #cfc; background: linear-gradient(#049424, #003300); }
+
+        .btn-fs:hover { background: linear-gradient(#04b424, #003300); }
+
+        .btn-active { color: #fcc; background: linear-gradient(#940424, #330000); }
+
+        .btn-active:hover { background: linear-gradient(#b40424, #330000); }
+
+        header, main, footer { padding: 5px; }
+
+        header { grid-area: h; display: flex; background: linear-gradient(#333, #111); }
+
+        header img { height: 65px; margin-right:20px; vertical-align:middle; }
+
+        header button, header h1 { font-weight:bold; font-size: 1.2em; flex:1;  }
+
+        header h1 { margin:0; }
+
+        main { grid-area: m; width: 99vw; background-color: #111; text-align: center; }
+
+        main img { border: 2px solid #333; border-radius: 10px; display: inline-block; max-width:99%; }
+
+        footer { grid-area: f; text-align: right; border-top: 1px solid #333; }
+    </style>
+</head>
+<body>
+<header class="masthead">
+    <h1><img src="arfp-crm.svg" />Partage d'écran</h1>
+    <button id="btnStartStop" class="btn-fs">► Start Watching!</button>
+    <button id="btnFs">↕ Fullscreen</button>
+</header>
+<main id="Viewer" class="imgPreview text-center">
+    <a id="imgLink" href="ScreenShare.jpg" target="_blank"><img id="imgPrev" src="screen.png" alt="No image to display !" /></a>
+</main>
+<footer>
+    <p>&copy; Screen Share, inspiré de ScreenTask <a href="https://github.com/EslaMx7">EslaMxSoft</a></p>
+</footer>
+<script>
+    var refreshInterval = 1000;
+    var ImagePreview = document.getElementById('imgPrev');
+    var btn = document.getElementById('btnStartStop');
+    var btnFs = document.getElementById('btnFs');
+
+    btn.onclick = function () {
+        if (btn.className === 'btn-active') {
+            btn.className = "btn-fs";
+            btn.innerHTML = "► Start Watching!";
+            ImagePreview.src = 'screen.png';
+            clearInterval(timer);
+            timer = null;
+        } else {
+            btn.className = "btn-active";
+            btn.innerHTML = "■ Stop Watching!";
+            timer = setInterval(function () {
+                ImagePreview.src = 'ScreenShare.jpg?rand=' + Math.random();
+            }, refreshInterval);
+        }
+
+    };
+
+    function requestFullScreen(element) {
+        var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+        if (requestMethod) { requestMethod.call(element); }
+    }
+
+    btnFs.onclick = function () {
+        var viewer = document.getElementById('Viewer');
+        requestFullScreen(viewer);
+    };
+</script>
+</body>
+</html>

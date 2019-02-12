@@ -16,14 +16,16 @@ namespace ScreenShare
     {        
         WebServer webServer;
 
-        Screenshot screenshot;
+        //Screenshot screenshot;
+
+        Thread httpServer;
         
         public FrmMain()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false; // For Visual Studio Debug !
             webServer = new WebServer();
-            screenshot = new Screenshot();
+            //screenshot = new Screenshot();
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -34,6 +36,8 @@ namespace ScreenShare
             }
 
             comboIPs.SelectedIndex = (comboIPs.Items.Count > 0) ? 0 : -1;
+
+            
         }
 
         private void Log(string text)
@@ -79,6 +83,9 @@ namespace ScreenShare
         {
             if (btnStartServer.Tag.ToString() != "start")
             {
+                if (httpServer != null)
+                    httpServer.Join();
+
                 webServer.Stop();
                 btnStartServer.Tag = "start";
                 btnStartServer.Text = "Start Server";
@@ -92,15 +99,18 @@ namespace ScreenShare
             {
                 Log("Starting Server, Please Wait...");
 
-                screenshot.SetDefault();
+                //screenshot.SetDefault();
 
                 ServerInfo.IsWorking = true;
 
-                Task.Run(() => webServer.Start());
+                httpServer = new Thread(new ThreadStart(webServer.Start));
+                httpServer.Start();
 
-                Thread.Sleep(500);
+                //Task.Run(() => webServer.Start());
 
-                Task.Factory.StartNew(() => CaptureScreenWhileWorking());
+                //Thread.Sleep(500);
+
+                //Task.Factory.StartNew(() => CaptureScreenWhileWorking());
                 
                 Log("Server Started Successfuly!");
                 Log("URL : " + ServerInfo.GetUrl());
@@ -133,22 +143,22 @@ namespace ScreenShare
             imgPreview.BringToFront();
         }
 
-        private async Task CaptureScreenWhileWorking()
-        {
-            while (ServerInfo.IsWorking)
-            {
-                if (cbScreenshot.Checked)
-                {
-                    screenshot.HasPreview = cbPreview.Checked;
-                    screenshot.CaptureScreen(cbCaptureMouse.Checked);
+        //private async Task CaptureScreenWhileWorking()
+        //{
+        //    while (ServerInfo.IsWorking)
+        //    {
+        //        if (cbScreenshot.Checked)
+        //        {
+        //            screenshot.HasPreview = cbPreview.Checked;
+        //            screenshot.CaptureScreen(cbCaptureMouse.Checked);
 
-                    if (screenshot.HasPreview)
-                        imgPreview.Image = screenshot.Preview;
-                }
+        //            if (screenshot.HasPreview)
+        //                imgPreview.Image = screenshot.Preview;
+        //        }
 
-                await Task.Delay((int)numShotEvery.Value);
-            }
-        }
+        //        await Task.Delay((int)numShotEvery.Value);
+        //    }
+        //}
 
         #endregion
        

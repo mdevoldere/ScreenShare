@@ -11,13 +11,15 @@ using System.Windows.Forms;
 
 namespace ScreenShare
 {
-    class Screenshot
+    public class Screenshot
     {
         public string Name { get; set; }
 
         public bool HasPreview { get; set; }
 
         public Bitmap Preview { get; protected set; }
+
+        public MemoryStream IPreview { get; protected set; }
 
         private ReaderWriterLock rwl = new ReaderWriterLock();
 
@@ -32,9 +34,9 @@ namespace ScreenShare
         {
             if (HasPreview)
             {
-                MemoryStream iPreview = new MemoryStream();
-                bmp.Save(iPreview, ImageFormat.Jpeg);
-                Preview = new Bitmap(iPreview);
+                IPreview = new MemoryStream();
+                bmp.Save(IPreview, ImageFormat.Jpeg);
+                Preview = new Bitmap(IPreview);
             }
         }
 
@@ -54,9 +56,9 @@ namespace ScreenShare
                     }
                 }
 
-                rwl.AcquireWriterLock(Timeout.Infinite);
-                bitmap.Save(ServerInfo.Path + "/" + Name + ".jpg", ImageFormat.Jpeg);
-                rwl.ReleaseWriterLock();
+                //rwl.AcquireWriterLock(Timeout.Infinite);
+                //bitmap.Save(ServerInfo.Path + "/" + Name + ".jpg", ImageFormat.Jpeg);
+                //rwl.ReleaseWriterLock();
 
                 SetPreview(bitmap);
             }

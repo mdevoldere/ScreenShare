@@ -83,7 +83,7 @@ namespace ScreenShare
         {
             try
             {
-                if (page.LocalPath.Contains("/ScreenShare.jpg"))
+                if (page.LocalPath.StartsWith("/ScreenShare.jpg"))
                 {
                     ctx.Response.ContentType = "image/jpeg";
                     s.IPreview.WriteTo(ctx.Response.OutputStream);

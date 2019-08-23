@@ -68,7 +68,7 @@ namespace ScreenShare
             while(ServerInfo.IsWorking)
             {
                 s.CaptureScreen(true);
-                Thread.Sleep(1000);
+                Thread.Sleep(900);
             }
         }
         

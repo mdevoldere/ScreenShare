@@ -23,11 +23,26 @@ namespace ScreenShare
 
         private ReaderWriterLock rwl = new ReaderWriterLock();
 
+        Rectangle rect = new Rectangle(
+                Screen.PrimaryScreen.WorkingArea.X,
+                Screen.PrimaryScreen.WorkingArea.Y,
+                Screen.PrimaryScreen.WorkingArea.Width,
+                Screen.PrimaryScreen.WorkingArea.Height
+            );
+
+        Point p1 = new Point(Screen.PrimaryScreen.WorkingArea.Left, Screen.PrimaryScreen.WorkingArea.Top);
+
+        readonly int decal = 0;
+
         public Screenshot() : this("ScreenShare") {}
 
         public Screenshot(string _name)
         {
             Name = _name;
+
+            if (rect.Y > 0)
+                decal = (Screen.PrimaryScreen.Bounds.Height - Screen.PrimaryScreen.WorkingArea.Height);
+
         }
 
         protected void SetPreview(Bitmap bmp)
@@ -42,17 +57,17 @@ namespace ScreenShare
 
         public void CaptureScreen(bool captureMouse)
         {
-            Rectangle bounds = Screen.GetBounds(Point.Empty);
+            //Rectangle bounds = Screen.GetBounds(Point.Empty);
 
-            using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
+            using (Bitmap bitmap = new Bitmap(rect.Width, rect.Height))
             {
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
-                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                    g.CopyFromScreen(p1, Point.Empty, rect.Size);
 
                     if(captureMouse)
                     {
-                        g.DrawIcon(Properties.Resources.cursor, Cursor.Position.X-5, Cursor.Position.Y);
+                        g.DrawIcon(Properties.Resources.cursor, Cursor.Position.X-5, Cursor.Position.Y-decal);
                     }
                 }
 

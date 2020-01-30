@@ -283,6 +283,8 @@
             // 
             this.cbScreenshot.AutoSize = true;
             this.cbScreenshot.BackColor = System.Drawing.Color.Transparent;
+            this.cbScreenshot.Checked = true;
+            this.cbScreenshot.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbScreenshot.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbScreenshot.Location = new System.Drawing.Point(235, 162);
             this.cbScreenshot.Name = "cbScreenshot";
@@ -393,7 +395,7 @@
             this.imgPreview.TabStop = false;
             this.imgPreview.Click += new System.EventHandler(this.ImgPreview_Click);
             // 
-            // frmMain
+            // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -420,7 +422,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "frmMain";
+            this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Screen Share";
             this.Load += new System.EventHandler(this.FrmMain_Load);

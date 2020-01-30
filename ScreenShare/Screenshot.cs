@@ -59,24 +59,32 @@ namespace ScreenShare
         {
             //Rectangle bounds = Screen.GetBounds(Point.Empty);
 
-            using (Bitmap bitmap = new Bitmap(rect.Width, rect.Height))
+            try
             {
-                using (Graphics g = Graphics.FromImage(bitmap))
+                using (Bitmap bitmap = new Bitmap(rect.Width, rect.Height))
                 {
-                    g.CopyFromScreen(p1, Point.Empty, rect.Size);
-
-                    if(captureMouse)
+                    using (Graphics g = Graphics.FromImage(bitmap))
                     {
-                        g.DrawIcon(Properties.Resources.cursor, Cursor.Position.X-5, Cursor.Position.Y-decal);
+                        g.CopyFromScreen(p1, Point.Empty, rect.Size);
+
+                        if (captureMouse)
+                        {
+                            g.DrawIcon(Properties.Resources.cursor, Cursor.Position.X - 5, Cursor.Position.Y - decal);
+                        }
                     }
+
+                    //rwl.AcquireWriterLock(Timeout.Infinite);
+                    //bitmap.Save(ServerInfo.Path + "/" + Name + ".jpg", ImageFormat.Jpeg);
+                    //rwl.ReleaseWriterLock();
+
+                    SetPreview(bitmap);
                 }
-
-                //rwl.AcquireWriterLock(Timeout.Infinite);
-                //bitmap.Save(ServerInfo.Path + "/" + Name + ".jpg", ImageFormat.Jpeg);
-                //rwl.ReleaseWriterLock();
-
-                SetPreview(bitmap);
             }
+            catch(Exception e)
+            {
+                //MessageBox.Show(e.Message);
+            }
+            
 
         }
 

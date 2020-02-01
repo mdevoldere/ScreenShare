@@ -37,7 +37,7 @@ namespace ScreenShare
                 Url = string.Format("http://{0}:{1}/", ServerInfo.Ip, ServerInfo.Port);
                 server.Prefixes.Clear();
                 server.Prefixes.Add("http://localhost:" + ServerInfo.Port + "/");
-                server.Prefixes.Add("http://" + Environment.MachineName + ":" + ServerInfo.Port + "/");
+                //server.Prefixes.Add("http://" + Environment.MachineName + ":" + ServerInfo.Port + "/");
                 //serv.Prefixes.Add("http://*:" + _port + "/"); // Uncomment Allow Public IP.
                 server.Prefixes.Add(Url);
 

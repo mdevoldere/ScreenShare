@@ -80,7 +80,7 @@ namespace ScreenShare
                     SetPreview(bitmap);
                 }
             }
-            catch(Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show(e.Message);
             }
